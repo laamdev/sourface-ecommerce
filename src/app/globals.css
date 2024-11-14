@@ -2,20 +2,135 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #faf4f0;
+    --foreground: #1a1a1a;
+    --card: #eee9e5;
+    --card-foreground: #1a1a1a;
+    --popover: #ffffff;
+    --popover-foreground: #1a1a1a;
+    --primary: #2b2b2b;
+    --primary-foreground: #fafafa;
+    --secondary: #eee9e5;
+    /* --secondary: #f5f5f5; */
+    --secondary-foreground: #2b2b2b;
+    --muted: #f5f5f5;
+    --muted-foreground: #767676;
+    --accent: #eab308;
+    --accent-foreground: #2b2b2b;
+    --destructive: #d93636;
+    --destructive-foreground: #fafafa;
+    --border: #1a1a1a;
+    --input: #e6e6e6;
+    --ring: #2b2b2b;
+    --radius: 0.5rem;
+    --chart-1: #e66b3e;
+    --chart-2: #2b9f63;
+    --chart-3: #3e5f7e;
+    --chart-4: #b3c43b;
+    --chart-5: #e6d11a;
+  }
+  .dark {
+    --background: #1a1a1a;
+    --foreground: #fafafa;
+    --card: #1a1a1a;
+    --card-foreground: #fafafa;
+    --popover: #1a1a1a;
+    --popover-foreground: #fafafa;
+    --primary: #fafafa;
+    --primary-foreground: #2b2b2b;
+    --secondary: #262626;
+    --secondary-foreground: #fafafa;
+    --muted: #262626;
+    --muted-foreground: #a3a3a3;
+    --accent: #262626;
+    --accent-foreground: #fafafa;
+    --destructive: #993333;
+    --destructive-foreground: #fafafa;
+    --border: #262626;
+    --input: #262626;
+    --ring: #d9d9d9;
+    --chart-1: #3399ff;
+    --chart-2: #66cc99;
+    --chart-3: #ffcc33;
+    --chart-4: #b366ff;
+    --chart-5: #ff6699;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  :root {
+    --r: 25px; /* corner radius */
+    --s: 40px; /* size of the corner */
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-balance leading-tight;
+  }
+}
+
+@layer components {
+  .tw-animation {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  .tw-image {
+    width: 200px;
+    border-radius: var(--r);
+    mask-image: radial-gradient(circle, #000 70%, transparent 72%);
+    -webkit-mask-image: radial-gradient(circle, #000 70%, transparent 72%);
+  }
+  .tw-top-right {
+    mask-image:
+      radial-gradient(circle at 100% 0, transparent 99%, #000 101%) var(--r)
+        var(--r),
+      conic-gradient(
+        from 0deg at calc(100% - var(--s)) calc(var(--s)),
+        transparent 25%,
+        #000 0
+      );
+  }
+
+  .tw-top-left {
+    mask-image:
+      radial-gradient(circle at 0 0, transparent 99%, #000 101%) var(--r)
+        var(--r),
+      conic-gradient(from 90deg at var(--s) var(--s), #000 75%, transparent 0);
+  }
+
+  .tw-bottom-left {
+    mask-image:
+      radial-gradient(circle at 0 100%, transparent 99%, #000 101%) var(--r)
+        calc(100% - var(--r)),
+      conic-gradient(
+        from 180deg at var(--s) calc(100% - var(--s)),
+        transparent 25%,
+        #000 0
+      );
+  }
+
+  .tw-bottom-right {
+    mask-image:
+      radial-gradient(circle at 100% 100%, transparent 99%, #000 101%)
+        calc(100% - var(--r)) calc(100% - var(--r)),
+      conic-gradient(
+        from 270deg at calc(100% - var(--s)) calc(100% - var(--s)),
+        transparent 25%,
+        #000 0
+      );
+  }
 }
