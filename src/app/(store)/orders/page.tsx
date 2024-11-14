@@ -10,6 +10,7 @@ import { PageTitle } from '@/components/globals/page-title'
 import { getMyOrders } from '@/sanity/lib/orders/getMyOrders'
 import { urlForImage } from '@/sanity/lib/utils'
 import { getFormattedCurrency, getFormattedDate } from '@/lib/utils'
+import { get } from 'http'
 
 export const metadata: Metadata = {
   title: 'My Orders'
@@ -73,18 +74,21 @@ export default async function OrdersPage() {
                     View Order
                     <span className='sr-only'>{order.orderNumber!}</span>
                   </Link>
-                  <a
-                    // @ts-expect-error
-                    href={order.invoice.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 md:w-auto'
-                  >
-                    View Invoice
-                    <span className='sr-only'>
-                      for order {order.orderNumber!}
-                    </span>
-                  </a>
+                  {/* @ts-expect-error */}
+                  {order.invoice && (
+                    <a
+                      //  @ts-expect-error
+                      href={order?.invoice?.url ?? '/'}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 md:w-auto'
+                    >
+                      View Invoice
+                      <span className='sr-only'>
+                        for order {order.orderNumber!}
+                      </span>
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -104,7 +108,7 @@ export default async function OrdersPage() {
                               </p>
                             </div>
                             <p className='mt-1 font-medium text-gray-900 sm:ml-6 sm:mt-0'>
-                              {product?.price}
+                              {getFormattedCurrency(product?.price!)}
                             </p>
                           </div>
                           <div className='mt-2 flex text-sm font-medium sm:mt-4'>
@@ -114,40 +118,8 @@ export default async function OrdersPage() {
                             >
                               View Product
                             </a>
-                            {/* <div className='ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6'>
-                              <a
-                                href='#'
-                                className='text-indigo-600 hover:text-indigo-500'
-                              >
-                                Buy Again
-                              </a>
-                            </div> */}
                           </div>
                         </div>
-                        {/* <div className='mt-6 font-medium'>
-                          {product?.status === 'delivered' ? (
-                            <div className='flex space-x-2'>
-                              <Check
-                                aria-hidden='true'
-                                className='size-6 flex-none text-green-500'
-                              />
-                              <p>
-                                Delivered
-                                <span className='hidden sm:inline'>
-                                  {' '}
-                                  on{' '}
-                                  <time dateTime={product.datetime}>
-                                    {product.date}
-                                  </time>
-                                </span>
-                              </p>
-                            </div>
-                          ) : product.status === 'out-for-delivery' ? (
-                            <p>Out for delivery</p>
-                          ) : product.status === 'cancelled' ? (
-                            <p className='text-gray-500'>Cancelled</p>
-                          ) : null}
-                        </div> */}
                       </div>
                       <div className='ml-4 shrink-0 sm:order-first sm:m-0 sm:mr-6'>
                         <div className='relative aspect-square size-24'>
