@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { Badge } from '@/components/ui/badge'
-
 import { cn } from '@/lib/utils'
 import { urlForImage } from '@/sanity/lib/utils'
 
@@ -25,22 +23,12 @@ export const ProductCard = ({ product }: { product: any }) => {
           className='rounded-2xl object-cover object-center transition-transform duration-300 group-hover:scale-105'
         />
       </div>
-      <div className='mt-4 flex flex-col items-center'>
-        <h2 className='mt-1 text-xl font-bold'>{product.name}</h2>
+      <div className='mt-2 flex flex-col items-center sm:mt-4'>
+        <h2 className='text-lg font-bold sm:text-xl'>{product.name}</h2>
 
-        <h3 className='text-base font-medium text-zinc-700'>
+        <h3 className='text-sm font-medium text-zinc-700 sm:text-base'>
           {product.price.toFixed(2)} €
         </h3>
-
-        {/* <p className='mt-2 line-clamp-2 text-sm text-gray-600'>
-          {product.description
-            ?.map(block =>
-              block._type === 'block'
-                ? block.children?.map(child => child.text).join('')
-                : ''
-            )
-            .join(' ') || 'No description available.'}
-        </p> */}
       </div>
     </Link>
   )

@@ -15,7 +15,7 @@ export const UserMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <User className='size-8' />
+        <User className='size-6 sm:size-8' />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

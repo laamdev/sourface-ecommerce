@@ -24,13 +24,13 @@ export const CategoryFilters = ({ filters }: { filters: any }) => {
   }
 
   return (
-    <div className='flex items-center gap-2'>
+    <div className='flex flex-wrap items-center justify-center gap-2'>
       <Badge
         variant={filter === 'all' ? 'default' : 'outline'}
         onClick={() => handleFilter('all')}
         className={cn(
           filter === 'all' && 'pointer-events-none',
-          'cursor-pointer'
+          'cursor-pointer text-sm sm:text-base'
         )}
       >
         All
@@ -42,7 +42,7 @@ export const CategoryFilters = ({ filters }: { filters: any }) => {
           onClick={() => handleFilter(item.value.toLowerCase())}
           className={cn(
             filter === item.value.toLowerCase() && 'pointer-events-none',
-            'cursor-pointer'
+            'cursor-pointer text-sm sm:text-base'
           )}
         >
           {item.label}

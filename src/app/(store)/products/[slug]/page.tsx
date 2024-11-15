@@ -44,8 +44,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   return (
-    <div className='grid grid-cols-2'>
-      <div className='relative aspect-square border-r-2'>
+    <div className='grid sm:grid-cols-2'>
+      <div className='relative aspect-square border-b-2 sm:border-b-0 sm:border-r-2'>
         <Image
           src={
             urlForImage(product.image)
@@ -61,29 +61,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
       <div className='flex flex-col p-8'>
         <div className='flex flex-col gap-y-2'>
-          <h1 className='font-serif text-7xl font-black uppercase'>
+          <h1 className='font-serif text-5xl font-black uppercase sm:text-7xl'>
             {product.name}
           </h1>
 
-          <h3 className='font-serif text-3xl font-bold text-stone-700'>
+          <h3 className='font-serif text-xl font-bold text-stone-700 sm:text-3xl'>
             {getFormattedCurrency(product.price!)}
           </h3>
         </div>
 
-        <div className='mt-8'>
+        <div className='mt-4 sm:mt-8'>
           {/* @ts-expect-error */}
           <ProductQuantity product={product} />
         </div>
 
-        <h2 className='mt-8 font-serif text-4xl font-bold text-stone-700'>
+        <h2 className='mt-4 font-serif text-2xl font-bold text-stone-700 sm:mt-8 sm:text-4xl'>
           <span>{`${product.style?.name} / ${product.abv}%`}</span>
         </h2>
 
-        <p className='prose-lg mt-2'>{product.description}</p>
+        <p className='prose mt-1 sm:prose-lg sm:mt-2'>{product.description}</p>
 
-        <Badge className='mt-4 w-fit'>
-          {product.size}cl {product.format}
-        </Badge>
+        <div className='flex items-center gap-x-2'>
+          <Badge className='mt-2 w-fit sm:mt-4'>{product.format}</Badge>
+          <Badge className='mt-2 w-fit sm:mt-4'>{product.size}cl</Badge>
+        </div>
 
         {/* <div className='mt-4'>
           <ProductVariants price={product.price} />
@@ -96,20 +97,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <span>{product.ingredients}</span>
             </div>
           )} */}
-
-          {product.size && product.format === 'Bottle' && (
-            <div className='flex items-center gap-2'>
-              <BeerBottle size={24} weight='fill' />
-              <span>{product.size}ml bottle</span>
-            </div>
-          )}
-
-          {product.size && product.format === 'Can' && (
-            <div className='flex items-center gap-2'>
-              <JarLabel size={24} weight='fill' />
-              <span>{product.size}ml can</span>
-            </div>
-          )}
         </div>
       </div>
     </div>

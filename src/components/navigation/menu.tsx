@@ -16,11 +16,13 @@ export const Menu = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <List className='size-8' />
+        <List className='size-6 sm:size-8' />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader className='border-b border-white'>
-          <SheetTitle className='uppercase text-background'>Menu</SheetTitle>
+          <SheetTitle className='text-left uppercase text-background'>
+            Menu
+          </SheetTitle>
         </SheetHeader>
         <ul className='p-6'>
           {navLinks.map(link => (

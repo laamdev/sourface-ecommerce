@@ -12,11 +12,11 @@
     "local-build": "bun run build && bun run start"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.3.3",
+    "@clerk/nextjs": "^6.3.4",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
-    "@radix-ui/react-icons": "^1.3.1",
+    "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-scroll-area": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
@@ -27,7 +27,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
-    "framer-motion": "^11.11.16",
+    "framer-motion": "^11.11.17",
     "lucide-react": "^0.456.0",
     "next": "15.0.3",
     "next-sanity": "^9.8.13",
@@ -55,7 +55,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-packagejson": "^2.5.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
-    "tailwindcss": "^3.4.14",
+    "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3"
   }
 }

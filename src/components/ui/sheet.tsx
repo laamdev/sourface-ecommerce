@@ -65,7 +65,7 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       <SheetPrimitive.Close className='absolute right-6 top-6 rounded-sm text-background opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary'>
-        <X className='size-8' />
+        <X className='size-6 sm:size-8' />
         <span className='sr-only'>Close</span>
       </SheetPrimitive.Close>
       {children}
@@ -108,7 +108,10 @@ const SheetTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Title
     ref={ref}
-    className={cn('text-lg font-semibold text-foreground', className)}
+    className={cn(
+      'text-base font-semibold text-foreground sm:text-lg',
+      className
+    )}
     {...props}
   />
 ))

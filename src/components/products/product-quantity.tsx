@@ -79,28 +79,28 @@ export const ProductQuantity = ({
         size='icon'
         onClick={() => removeItem(product._id)}
         disabled={itemCount === 0 || disabled}
-        className={cn(itemCount === 0 ? 'cursor-not-allowed opacity-50' : '')}
+        className={cn(
+          itemCount === 0 && 'cursor-not-allowed opacity-50',
+          'size-8 sm:size-10'
+        )}
       >
         <Minus />
       </Button>
-      {!isClient ? <Loader /> : <span className='text-2xl'>{itemCount}</span>}
-      {/* <Input
-        type='number'
-        // // value={quantity}
-        // // onChange={handleInputChange}
-        // // min={MIN_QUANTITY}
-        // // max={MAX_QUANTITY}
-        className='w-16 text-center text-2xl tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
-      /> */}
+      {!isClient ? (
+        <Loader />
+      ) : (
+        <span className='text-lg sm:text-2xl'>{itemCount}</span>
+      )}
       <Button
         size='icon'
         onClick={() => addItem(product)}
         disabled={itemCount >= product.stock! || disabled}
         className={cn(
-          itemCount >= product.stock! ? 'cursor-not-allowed opacity-50' : ''
+          itemCount >= product.stock! && 'cursor-not-allowed opacity-50',
+          'size-8 sm:size-10'
         )}
       >
-        <Plus />
+        <Plus className='size-4 sm:size-8' />
       </Button>
 
       {/* <Button size='lg' onClick={handleAddToCart}>

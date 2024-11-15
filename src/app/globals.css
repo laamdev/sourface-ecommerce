@@ -88,49 +88,4 @@ body {
   .tw-animation {
     @apply transition-all duration-300 ease-in-out;
   }
-  .tw-image {
-    width: 200px;
-    border-radius: var(--r);
-    mask-image: radial-gradient(circle, #000 70%, transparent 72%);
-    -webkit-mask-image: radial-gradient(circle, #000 70%, transparent 72%);
-  }
-  .tw-top-right {
-    mask-image:
-      radial-gradient(circle at 100% 0, transparent 99%, #000 101%) var(--r)
-        var(--r),
-      conic-gradient(
-        from 0deg at calc(100% - var(--s)) calc(var(--s)),
-        transparent 25%,
-        #000 0
-      );
-  }
-
-  .tw-top-left {
-    mask-image:
-      radial-gradient(circle at 0 0, transparent 99%, #000 101%) var(--r)
-        var(--r),
-      conic-gradient(from 90deg at var(--s) var(--s), #000 75%, transparent 0);
-  }
-
-  .tw-bottom-left {
-    mask-image:
-      radial-gradient(circle at 0 100%, transparent 99%, #000 101%) var(--r)
-        calc(100% - var(--r)),
-      conic-gradient(
-        from 180deg at var(--s) calc(100% - var(--s)),
-        transparent 25%,
-        #000 0
-      );
-  }
-
-  .tw-bottom-right {
-    mask-image:
-      radial-gradient(circle at 100% 100%, transparent 99%, #000 101%)
-        calc(100% - var(--r)) calc(100% - var(--r)),
-      conic-gradient(
-        from 270deg at calc(100% - var(--s)) calc(100% - var(--s)),
-        transparent 25%,
-        #000 0
-      );
-  }
 }

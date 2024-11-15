@@ -82,8 +82,8 @@ export const Cart = () => {
     <Sheet>
       <SheetTrigger>
         <div className='relative'>
-          <Basket className='size-8' />
-          <span className='absolute -right-2 -top-2 flex h-5 w-5 min-w-[20px] items-center justify-center rounded-full bg-primary text-xs text-white'>
+          <Basket className='size-6 sm:size-8' />
+          <span className='absolute -right-2 -top-2 flex size-4 min-w-[20px] items-center justify-center rounded-full bg-primary text-xs text-white sm:size-5'>
             {itemCount}
           </span>
         </div>

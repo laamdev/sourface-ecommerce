@@ -27,15 +27,18 @@ export default async function HomePage() {
     <>
       <SalesBanner />
 
-      <section className='px-8 py-16'>
+      <section className='px-4 py-8 sm:px-8 sm:py-16'>
         <SectionHeading title='Latest Drops' />
-        <div className='mt-12'>
+        <div className='mt-4 sm:mt-8'>
           {/* @ts-expect-error  */}
           <ProductsGrid products={featuredProducts} />
 
           <div className='flex items-center justify-center'>
             <Link
-              className={buttonVariants({ className: 'mt-12', size: 'lg' })}
+              className={buttonVariants({
+                className: 'mt-4 sm:mt-8',
+                size: 'lg'
+              })}
               href='/products'
             >
               All Products
