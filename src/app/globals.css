@@ -82,6 +82,10 @@ body {
   h6 {
     @apply text-balance leading-tight;
   }
+
+  img {
+    @apply bg-card;
+  }
 }
 
 @layer components {

@@ -12,7 +12,7 @@ export const MaxWidthWrapper = ({
   return (
     <div
       className={cn(
-        'mx-auto flex max-w-screen-2xl flex-col gap-y-20 px-10',
+        'mx-auto flex max-w-screen-2xl flex-col gap-y-8 px-4 sm:gap-y-16 sm:px-8',
         className
       )}
     >

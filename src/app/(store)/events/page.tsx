@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 
-import { MaxWidthWrapper } from '@/components/globals/max-width-wrapper'
 import { PageTitle } from '@/components/globals/page-title'
 import { EventsGrid } from '@/components/events/events-grid'
 import { EmptyState } from '@/components/globals/empty-state'
@@ -17,12 +16,12 @@ export default async function EventsPage() {
   const events = await getAllEvents()
 
   return (
-    <div className='py-16'>
+    <div className='py-8 sm:py-16'>
       <div>
-        <PageTitle title='Eventos' />
+        <PageTitle title='Events' />
       </div>
 
-      <section className='flex flex-col gap-y-4'>
+      <section className='flex flex-col gap-y-2 sm:gap-y-4'>
         {events && events.length > 0 ? (
           <EventsGrid events={events} />
         ) : (

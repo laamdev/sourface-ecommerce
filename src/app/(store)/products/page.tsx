@@ -47,17 +47,17 @@ export default async function ProductsPage({
   }))
 
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className='py-8 sm:py-16'>
       <section>
-        <PageTitle title='All Products' />
+        <PageTitle title='Our Beers' />
 
-        <div className='mt-8'>
-          <div className='flex flex-col gap-y-4'>
-            <ProductSearch placeholder='Search products...' />
+        <div className='mt-4 sm:mt-8'>
+          <div className='flex flex-col gap-y-2 sm:gap-y-4'>
+            <ProductSearch placeholder='Search beers...' />
             <CategoryFilters filters={categoriesList} />
           </div>
 
-          <div className='py-16'>
+          <div className='py-8 sm:py-16'>
             <ProductsGrid products={products} />
           </div>
         </div>

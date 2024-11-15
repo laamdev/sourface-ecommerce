@@ -4,7 +4,7 @@ import { sanityFetch } from '@/sanity/lib/live'
 
 export const getAllTaps = async () => {
   const ALL_TAPS_QUERY = defineQuery(`
-    *[_type == "tap"] | order(tapNumber desc) {
+    *[_type == "tap"] | order(tapNumber asc) {
       _id,
       tapNumber,
       beerName,

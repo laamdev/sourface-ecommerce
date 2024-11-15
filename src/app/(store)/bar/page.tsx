@@ -4,19 +4,21 @@ import { MaxWidthWrapper } from '@/components/globals/max-width-wrapper'
 import { PageTitle } from '@/components/globals/page-title'
 import { FoodMenu } from '@/components/bar/food-menu'
 import { TapsMenu } from '@/components/bar/taps-menu'
+import { SectionHeading } from '@/components/globals/section-heading'
 
 export const metadata: Metadata = {
   title: 'Bar'
 }
 export default async function BarPage() {
   return (
-    <MaxWidthWrapper>
-      <section className='flex flex-col gap-y-8'>
-        <PageTitle title='Grifos' />
+    <MaxWidthWrapper className='py-8 sm:py-16'>
+      <PageTitle title='Sour Bar' />
+      <section className='flex flex-col gap-y-4 sm:gap-y-8'>
+        <SectionHeading title='Taps' />
         <TapsMenu />
       </section>
-      <section className='flex flex-col gap-y-8'>
-        <PageTitle title='Comida' />
+      <section className='flex flex-col gap-y-4 sm:gap-y-8'>
+        <SectionHeading title='Snacks' />
         <FoodMenu />
       </section>
     </MaxWidthWrapper>

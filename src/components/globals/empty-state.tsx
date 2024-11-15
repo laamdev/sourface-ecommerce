@@ -14,12 +14,12 @@ export const EmptyState = ({
   linkLabel
 }: EmptyStateProps) => {
   return (
-    <div className='mx-auto flex w-full max-w-5xl flex-col items-center rounded-2xl bg-card p-16'>
-      <h3 className='text-2xl'>{message}</h3>
+    <div className='mx-auto flex w-full max-w-5xl flex-col items-center rounded-2xl bg-card p-8 sm:p-16'>
+      <h3 className='text-center text-base sm:text-2xl'>{message}</h3>
 
       <Link
         href={linkHref}
-        className={buttonVariants({ className: 'mt-4 w-fit' })}
+        className={buttonVariants({ className: 'mt-2 w-fit sm:mt-4' })}
       >
         {linkLabel}
       </Link>
