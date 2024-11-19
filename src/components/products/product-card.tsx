@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { cn } from '@/lib/utils'
+import { cn, getFormattedCurrency } from '@/lib/utils'
 import { urlForImage } from '@/sanity/lib/utils'
 
 export const ProductCard = ({ product }: { product: any }) => {
@@ -27,7 +27,7 @@ export const ProductCard = ({ product }: { product: any }) => {
         <h2 className='text-lg font-bold sm:text-xl'>{product.name}</h2>
 
         <h3 className='text-sm font-medium text-zinc-700 sm:text-base'>
-          {product.price.toFixed(2)} €
+          {getFormattedCurrency(product.price)}
         </h3>
       </div>
     </Link>

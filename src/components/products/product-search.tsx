@@ -32,6 +32,7 @@ export const ProductSearch = ({ placeholder }: SearchProps) => {
         handleSearch(e.target.value)
       }}
       defaultValue={searchParams.get('query')?.toString()}
+      className='mx-auto max-w-2xl'
     />
   )
 }

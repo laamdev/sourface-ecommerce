@@ -15,7 +15,7 @@ import { FooterWrapper } from './footer-wrapper'
 
 export const Footer = () => {
   return (
-    <footer className='bg-foreground py-16 sm:py-32'>
+    <footer className='bg-foreground py-16 sm:py-24'>
       <MaxWidthWrapper className='grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-16'>
         <div className='col-span-1'>
           <div className='flex w-fit flex-col items-center -space-y-4'>
@@ -42,22 +42,20 @@ export const Footer = () => {
             <FooterLabel text='Opening Hours' />
 
             <div className='flex flex-col gap-y-4'>
-              <p className='flex flex-col gap-y-1'>
-                <span className='text-xs text-stone-300 sm:text-sm'>
-                  Tue - Sat
-                </span>
+              <div className='flex flex-col gap-y-1'>
+                <p className='text-xs text-stone-300 sm:text-sm'>Tue - Sat</p>
                 <FooterValue>12:00 - 22:00</FooterValue>
-              </p>
-              <p className='flex flex-col gap-y-1'>
-                <span className='text-xs text-stone-300 sm:text-sm'>
+              </div>
+              <div className='flex flex-col gap-y-1'>
+                <p className='text-xs text-stone-300 sm:text-sm'>
                   Sun & Holidays
-                </span>
+                </p>
                 <FooterValue>12:00 - 16:00</FooterValue>
-              </p>
-              <p className='flex flex-col gap-y-1'>
-                <span className='text-xs text-stone-300 sm:text-sm'>Mon</span>
+              </div>
+              <div className='flex flex-col gap-y-1'>
+                <p className='text-xs text-stone-300 sm:text-sm'>Mon</p>
                 <FooterValue>Closed</FooterValue>
-              </p>
+              </div>
             </div>
           </FooterWrapper>
         </div>

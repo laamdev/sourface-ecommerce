@@ -49,7 +49,7 @@ export default function SuccessPage() {
           View Order Details
         </Link>
         <Link
-          href={`/orders/${orderNumber}`}
+          href={`/products`}
           className={buttonVariants({ className: '', variant: 'secondary' })}
         >
           Continue Shopping

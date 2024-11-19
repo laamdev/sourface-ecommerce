@@ -12,13 +12,13 @@ export const metadata: Metadata = {
 export default async function BarPage() {
   return (
     <MaxWidthWrapper className='py-8 sm:py-16'>
-      <PageTitle title='Sour Bar' />
+      <PageTitle title='Bar' />
       <section className='flex flex-col gap-y-4 sm:gap-y-8'>
-        <SectionHeading title='Taps' />
+        <SectionHeading title='Taps' isLeft />
         <TapsMenu />
       </section>
       <section className='flex flex-col gap-y-4 sm:gap-y-8'>
-        <SectionHeading title='Snacks' />
+        <SectionHeading title='Snacks' isLeft />
         <FoodMenu />
       </section>
     </MaxWidthWrapper>

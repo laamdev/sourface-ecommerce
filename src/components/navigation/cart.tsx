@@ -95,7 +95,7 @@ export const Cart = () => {
             {groupedItems.length > 0 && <span>({itemCount})</span>}
           </SheetTitle>
         </SheetHeader>
-        <SheetDescription className='p-6'>
+        <div className='p-4 sm:p-8'>
           {groupedItems.length !== 0 ? (
             <div>
               <ScrollArea className='h-[65vh] overflow-y-scroll'>
@@ -191,7 +191,7 @@ export const Cart = () => {
               </div>
             </div>
           )}
-        </SheetDescription>
+        </div>
       </SheetContent>
     </Sheet>
   )

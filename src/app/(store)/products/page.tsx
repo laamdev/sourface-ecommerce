@@ -21,7 +21,7 @@ interface ProductsPageProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Products'
+  title: 'Beers'
 }
 
 export default async function ProductsPage({
@@ -49,7 +49,7 @@ export default async function ProductsPage({
   return (
     <MaxWidthWrapper className='py-8 sm:py-16'>
       <section>
-        <PageTitle title='Our Beers' />
+        <PageTitle title='Beers' />
 
         <div className='mt-4 sm:mt-8'>
           <div className='flex flex-col gap-y-2 sm:gap-y-4'>
