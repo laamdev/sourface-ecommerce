@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button'
 
 import { useBasketStore } from '@/store/provider'
 import { cn } from '@/lib/utils'
-import { Product } from 'sanity.types'
 import { Loader } from '../globals/loader'
+import { Product } from '../../../sanity.types'
 
 export const ProductQuantity = ({
   product,

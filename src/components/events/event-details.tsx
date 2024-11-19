@@ -13,9 +13,9 @@ import { PortableText } from 'next-sanity'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
-import { Event } from 'sanity.types'
 import { getFormattedCurrency, getFormattedDate } from '@/lib/utils'
 import { urlForImage } from '@/sanity/lib/utils'
+import { Event } from '../../../sanity.types'
 
 interface EventDetailsProps {
   event: Event

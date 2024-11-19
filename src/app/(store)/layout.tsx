@@ -1,19 +1,11 @@
 import '@/app/globals.css'
 
 import type { Metadata } from 'next'
-import { draftMode } from 'next/headers'
-import { VisualEditing } from 'next-sanity'
 import localFont from 'next/font/local'
 import { ClerkProvider } from '@clerk/nextjs'
 
-import { Header } from '@/components/navigation/header'
-import { Footer } from '@/components/navigation/footer'
-
 import { cn } from '@/lib/utils'
 import { COMPANY_DESCRIPTION, COMPANY_NAME, SITE_URL } from '@/lib/constants'
-import { SanityLive } from '@/sanity/lib/live'
-import { BasketStoreProvider } from '@/store/provider'
-import { DisableDraftMode } from '@/components/globals/disable-draft-mode'
 
 const rader = localFont({
   src: [
@@ -228,40 +220,23 @@ export const metadata: Metadata = {
   }
 }
 
-export default async function RootLayout({
+export default async function SiteLayout({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
     <ClerkProvider dynamic>
-      <BasketStoreProvider>
-        <html
-          lang='en'
-          className={cn(
-            rader.variable,
-            neueMontreal.variable,
-            'bg-background font-sans text-foreground antialiased'
-          )}
-        >
-          <body>
-            {(await draftMode()).isEnabled && (
-              <>
-                <DisableDraftMode />
-                <VisualEditing />
-              </>
-            )}
-
-            <main>
-              <Header />
-              {children}
-              <Footer />
-            </main>
-
-            <SanityLive />
-          </body>
-        </html>
-      </BasketStoreProvider>
+      <html
+        lang='en'
+        className={cn(
+          rader.variable,
+          neueMontreal.variable,
+          'bg-background font-sans text-foreground antialiased'
+        )}
+      >
+        {children}
+      </html>
     </ClerkProvider>
   )
 }

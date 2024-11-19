@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 
 import { useBasketStore } from '@/store/provider'
-import { Product } from 'sanity.types'
+import { Product } from '../../../sanity.types'
 
 interface AddToBasketButtonProps {
   product: Product

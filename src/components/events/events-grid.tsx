@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { EventCard } from '@/components/events/event-card'
 
 import { cn } from '@/lib/utils'
-import { Event } from 'sanity.types'
+import { Event } from '../../../sanity.types'
 
 export const EventsGrid = ({
   events,

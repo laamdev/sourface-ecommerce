@@ -21,7 +21,7 @@ body {
     --secondary-foreground: #2b2b2b;
     --muted: #f5f5f5;
     --muted-foreground: #767676;
-    --accent: #eab308;
+    --accent: #fdc12d;
     --accent-foreground: #2b2b2b;
     --destructive: #d93636;
     --destructive-foreground: #fafafa;
@@ -34,6 +34,14 @@ body {
     --chart-3: #3e5f7e;
     --chart-4: #b3c43b;
     --chart-5: #e6d11a;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     --background: #1a1a1a;
@@ -60,19 +68,22 @@ body {
     --chart-3: #ffcc33;
     --chart-4: #b366ff;
     --chart-5: #ff6699;
+    --sidebar-background: #0a0a0a;
+    --sidebar-foreground: #f5f5f5;
+    --sidebar-primary: #3399cc;
+    --sidebar-primary-foreground: --sidebar-accent: #1a1a1a;
+    --sidebar-accent-foreground: #f5f5f5;
+    --sidebar-border: #1a1a1a;
+    --sidebar-ring: #33ccff;
   }
 }
 
 @layer base {
-  :root {
-    --r: 25px; /* corner radius */
-    --s: 40px; /* size of the corner */
-  }
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground selection:bg-yellow-300;
+    @apply bg-background text-foreground selection:bg-[#fee689] selection:text-black;
   }
   h1,
   h2,
@@ -91,5 +102,14 @@ body {
 @layer components {
   .tw-animation {
     @apply transition-all duration-300 ease-in-out;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

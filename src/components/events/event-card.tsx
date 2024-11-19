@@ -7,7 +7,7 @@ import { EventDetails } from '@/components/events/event-details'
 import { getFormattedCurrency } from '@/lib/utils'
 import { getFormattedDate } from '@/lib/utils'
 import { urlForImage } from '@/sanity/lib/utils'
-import { Event } from 'sanity.types'
+import { Event } from '../../../sanity.types'
 
 interface EventCardProps {
   event: Event

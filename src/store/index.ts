@@ -1,7 +1,6 @@
 import { createStore } from 'zustand/vanilla'
 import { persist } from 'zustand/middleware'
-
-import { Product } from 'sanity.types'
+import { Product } from '../../sanity.types'
 
 export interface BasketItem {
   product: Product

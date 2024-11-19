@@ -68,6 +68,67 @@ export type Geopoint = {
   alt?: number
 }
 
+export type Person = {
+  _id: string
+  _type: 'person'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  slug?: Slug
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  avatar?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  email?: string
+  bio?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  bioExcerpt?: string
+  role?: string
+  order?: number
+  isTeamMember?: boolean
+  skills?: {
+    areas?: Array<string>
+    platforms?: Array<string>
+    languages?: Array<string>
+  }
+  isAuthor?: boolean
+}
+
 export type Event = {
   _id: string
   _type: 'event'
@@ -421,6 +482,7 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Person
   | Event
   | Food
   | Tap
@@ -449,7 +511,7 @@ export type ALL_DISHES_QUERYResult = Array<{
 
 // Source: ./src/sanity/lib/bar/getAllTaps.ts
 // Variable: ALL_TAPS_QUERY
-// Query: *[_type == "tap"] | order(tapNumber desc) {      _id,      tapNumber,      beerName,      breweryName,      beerStyle,      abv,      halfPintPrice,      pintPrice    }
+// Query: *[_type == "tap"] | order(tapNumber asc) {      _id,      tapNumber,      beerName,      breweryName,      beerStyle,      abv,      halfPintPrice,      pintPrice    }
 export type ALL_TAPS_QUERYResult = Array<{
   _id: string
   tapNumber: number | null
@@ -539,10 +601,19 @@ export type ALL_EVENTS_QUERYResult = Array<{
   }
 }>
 
-// Source: ./src/sanity/lib/orders/getMyOrders.tsx
-// Variable: MY_ORDERS_QUERY
-// Query: *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {      ...,      products[]{        ...,        product->      }    }
-export type MY_ORDERS_QUERYResult = Array<{
+// Source: ./src/sanity/lib/customers/getAllUniqueCustomers.ts
+// Variable: ALL_CUSTOMERS_QUERY
+// Query: *[_type == "order"] {      customerName,      email,      clerkUserId    }
+export type ALL_CUSTOMERS_QUERYResult = Array<{
+  customerName: string | null
+  email: string | null
+  clerkUserId: string | null
+}>
+
+// Source: ./src/sanity/lib/customers/getCustomerOrders.ts
+// Variable: CUSTOMER_ORDERS_QUERY
+// Query: *[_type == "order" && clerkUserId == $customerId] | order(orderDate desc) {      ...,      products[]{        ...,        product->      }    }
+export type CUSTOMER_ORDERS_QUERYResult = Array<{
   _id: string
   _type: 'order'
   _createdAt: string
@@ -612,80 +683,6 @@ export type MY_ORDERS_QUERYResult = Array<{
   status?: 'cancelled' | 'delivered' | 'paid' | 'pending' | 'shipped'
   orderDate?: string
 }>
-
-// Source: ./src/sanity/lib/orders/getOrderById.tsx
-// Variable: ORDER_QUERY
-// Query: *[_type == "order" && orderNumber == $orderId][0] {      ...,      products[]{        ...,        product->      }    }
-export type ORDER_QUERYResult = {
-  _id: string
-  _type: 'order'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  orderNumber?: string
-  stripeCheckoutSessionId?: string
-  stripeCustomerId?: string
-  clerkUserId?: string
-  customerName?: string
-  email?: string
-  stripePaymentIntentId?: string
-  products: Array<{
-    product: {
-      _id: string
-      _type: 'product'
-      _createdAt: string
-      _updatedAt: string
-      _rev: string
-      name?: string
-      slug?: Slug
-      price?: number
-      abv?: number
-      ingredients?: Array<string>
-      description?: string
-      image?: {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-      }
-      stock?: number
-      category?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'category'
-      }
-      manufacturer?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'manufacturer'
-      }
-      collaborator?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'manufacturer'
-      }
-      releaseDate?: string
-      format?: 'Bottle' | 'Can'
-      size?: number
-      isFeatured?: boolean
-    } | null
-    quantity?: number
-    _key: string
-  }> | null
-  totalPrice?: number
-  currency?: string
-  amountDiscount?: number
-  status?: 'cancelled' | 'delivered' | 'paid' | 'pending' | 'shipped'
-  orderDate?: string
-} | null
 
 // Source: ./src/sanity/lib/products/getAllCategories.ts
 // Variable: ALL_CATEGORIES_QUERY
@@ -859,6 +856,233 @@ export type PRODUCT_SEARCH_QUERYResult = Array<{
   isFeatured?: boolean
 }>
 
+// Source: ./src/sanity/lib/orders/getAllOrders.tsx
+// Variable: ALL_ORDERS_QUERY
+// Query: *[_type == "order"] | order(orderDate desc) {      ...,      products[]{        ...,        product->      }    }
+export type ALL_ORDERS_QUERYResult = Array<{
+  _id: string
+  _type: 'order'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  orderNumber?: string
+  stripeCheckoutSessionId?: string
+  stripeCustomerId?: string
+  clerkUserId?: string
+  customerName?: string
+  email?: string
+  stripePaymentIntentId?: string
+  products: Array<{
+    product: {
+      _id: string
+      _type: 'product'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      name?: string
+      slug?: Slug
+      price?: number
+      abv?: number
+      ingredients?: Array<string>
+      description?: string
+      image?: {
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+      }
+      stock?: number
+      category?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'category'
+      }
+      manufacturer?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'manufacturer'
+      }
+      collaborator?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'manufacturer'
+      }
+      releaseDate?: string
+      format?: 'Bottle' | 'Can'
+      size?: number
+      isFeatured?: boolean
+    } | null
+    quantity?: number
+    _key: string
+  }> | null
+  totalPrice?: number
+  currency?: string
+  amountDiscount?: number
+  status?: 'cancelled' | 'delivered' | 'paid' | 'pending' | 'shipped'
+  orderDate?: string
+}>
+
+// Source: ./src/sanity/lib/orders/getMyOrders.tsx
+// Variable: MY_ORDERS_QUERY
+// Query: *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {      ...,      products[]{        ...,        product->      }    }
+export type MY_ORDERS_QUERYResult = Array<{
+  _id: string
+  _type: 'order'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  orderNumber?: string
+  stripeCheckoutSessionId?: string
+  stripeCustomerId?: string
+  clerkUserId?: string
+  customerName?: string
+  email?: string
+  stripePaymentIntentId?: string
+  products: Array<{
+    product: {
+      _id: string
+      _type: 'product'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      name?: string
+      slug?: Slug
+      price?: number
+      abv?: number
+      ingredients?: Array<string>
+      description?: string
+      image?: {
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+      }
+      stock?: number
+      category?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'category'
+      }
+      manufacturer?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'manufacturer'
+      }
+      collaborator?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'manufacturer'
+      }
+      releaseDate?: string
+      format?: 'Bottle' | 'Can'
+      size?: number
+      isFeatured?: boolean
+    } | null
+    quantity?: number
+    _key: string
+  }> | null
+  totalPrice?: number
+  currency?: string
+  amountDiscount?: number
+  status?: 'cancelled' | 'delivered' | 'paid' | 'pending' | 'shipped'
+  orderDate?: string
+}>
+
+// Source: ./src/sanity/lib/orders/getOrderById.tsx
+// Variable: ORDER_QUERY
+// Query: *[_type == "order" && orderNumber == $orderId][0] {      ...,      products[]{        ...,        product->      }    }
+export type ORDER_QUERYResult = {
+  _id: string
+  _type: 'order'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  orderNumber?: string
+  stripeCheckoutSessionId?: string
+  stripeCustomerId?: string
+  clerkUserId?: string
+  customerName?: string
+  email?: string
+  stripePaymentIntentId?: string
+  products: Array<{
+    product: {
+      _id: string
+      _type: 'product'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      name?: string
+      slug?: Slug
+      price?: number
+      abv?: number
+      ingredients?: Array<string>
+      description?: string
+      image?: {
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+      }
+      stock?: number
+      category?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'category'
+      }
+      manufacturer?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'manufacturer'
+      }
+      collaborator?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'manufacturer'
+      }
+      releaseDate?: string
+      format?: 'Bottle' | 'Can'
+      size?: number
+      isFeatured?: boolean
+    } | null
+    quantity?: number
+    _key: string
+  }> | null
+  totalPrice?: number
+  currency?: string
+  amountDiscount?: number
+  status?: 'cancelled' | 'delivered' | 'paid' | 'pending' | 'shipped'
+  orderDate?: string
+} | null
+
+// Source: ./src/sanity/lib/orders/getOrdersCount.tsx
+// Variable: ORDERS_COUNT_QUERY
+// Query: count(*[_type == "order"])
+export type ORDERS_COUNT_QUERYResult = number
+
 // Source: ./src/sanity/lib/sales/getActiveSaleByCouponCode.ts
 // Variable: ACTIVE_SALE_BY_COUPON_QUERY
 // Query: *[      _type == "sale"      && isActive == true      && couponCode == $couponCode      ] | order(validFrom desc)[0]
@@ -899,17 +1123,21 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '\n    *[_type == "food"] | order(order asc) {\n      _id,\n      name,\n      description,\n      price\n    }\n  ': ALL_DISHES_QUERYResult
-    '\n    *[_type == "tap"] | order(tapNumber desc) {\n      _id,\n      tapNumber,\n      beerName,\n      breweryName,\n      beerStyle,\n      abv,\n      halfPintPrice,\n      pintPrice\n    }\n  ': ALL_TAPS_QUERYResult
+    '\n    *[_type == "tap"] | order(tapNumber asc) {\n      _id,\n      tapNumber,\n      beerName,\n      breweryName,\n      beerStyle,\n      abv,\n      halfPintPrice,\n      pintPrice\n    }\n  ': ALL_TAPS_QUERYResult
     '\n    *[_type == "category" && slug.current == $slug] | order(name asc)[0]\n  ': CATEGORY_BY_SLUG_QUERYResult
     '\n    *[_type == "event"] | order(startDate asc)\n  ': ALL_EVENTS_QUERYResult
-    '\n    *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': MY_ORDERS_QUERYResult
-    '\n    *[_type == "order" && orderNumber == $orderId][0] {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': ORDER_QUERYResult
+    '\n    *[_type == "order"] {\n      customerName,\n      email,\n      clerkUserId\n    }\n  ': ALL_CUSTOMERS_QUERYResult
+    '\n    *[_type == "order" && clerkUserId == $customerId] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': CUSTOMER_ORDERS_QUERYResult
     '\n    *[_type == "category"] | order(name asc) {\n      _id,\n      name,\n      "slug": slug.current,\n    }\n  ': ALL_CATEGORIES_QUERYResult
     '\n    *[_type == "product" && isFeatured][0...4] | order(name asc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      image,\n      "manufacturer": manufacturer->name,\n      "style": category->name,\n    }\n  ': FEATURED_PRODUCTS_QUERYResult
     '\n    *[_type == "product" && slug.current == $slug] | order(name asc)[0]{\n      _id,\n      name,\n      description,\n      "slug": slug.current,\n      "manufacturer": manufacturer->{\n        name, \n        "slug": slug.current\n        },\n      "style": category->{\n        name,\n        "slug": slug.current\n      },\n      image,\n      price,\n      abv,\n      size,\n      format\n    }\n  ': PRODUCT_BY_ID_QUERYResult
     '\n    *[_type == "product" && references(*[_type == "category" && slug.current == $categorySlug]._id)] | order(name asc)\n  ': PRODUCT_BY_CATEGORY_QUERYResult
     '\n    count(*[_type == "product"])\n  ': PRODUCTS_COUNT_QUERYResult
     '\n    *[_type == "product" && name match $searchParam] | order(name asc)\n  ': PRODUCT_SEARCH_QUERYResult
+    '\n    *[_type == "order"] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': ALL_ORDERS_QUERYResult
+    '\n    *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': MY_ORDERS_QUERYResult
+    '\n    *[_type == "order" && orderNumber == $orderId][0] {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': ORDER_QUERYResult
+    '\n    count(*[_type == "order"])\n  ': ORDERS_COUNT_QUERYResult
     '\n    *[\n      _type == "sale"\n      && isActive == true\n      && couponCode == $couponCode\n      ] | order(validFrom desc)[0]\n  ': ACTIVE_SALE_BY_COUPON_QUERYResult
   }
 }

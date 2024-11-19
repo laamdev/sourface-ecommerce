@@ -1,4 +1,4 @@
-import { Food } from 'sanity.types'
+import { Food } from '../../../sanity.types'
 
 interface FoodItemProps {
   dish: Food

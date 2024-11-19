@@ -8,6 +8,7 @@ import { UserMenu } from '@/components/navigation/user-menu'
 import { COMPANY_NAME } from '@/lib/constants'
 import { navLinks } from '@/lib/constants'
 import { SignIn } from '@phosphor-icons/react/dist/ssr'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const Navbar = () => {
   return (

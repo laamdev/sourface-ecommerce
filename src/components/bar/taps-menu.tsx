@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/table'
 
 import { getAllTaps } from '@/sanity/lib/bar/getAllTaps'
-import { Tap } from 'sanity.types'
 
 export const TapsMenu = async () => {
   const taps = await getAllTaps()
@@ -28,7 +27,7 @@ export const TapsMenu = async () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {taps.map((tap: Tap) => (
+        {taps.map(tap => (
           <TableRow key={tap._id}>
             <TableCell className='font-serif text-lg font-bold uppercase sm:text-3xl'>
               #0{tap.tapNumber}

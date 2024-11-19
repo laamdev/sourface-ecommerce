@@ -7,8 +7,11 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
 
-export const getFormattedDate = (date: string) => {
-  const formattedDate = format(new Date(date), 'EEEE, MMM d, yyyy', {
+export const getFormattedDate = (
+  date: string,
+  dateFormat: string = 'EEEE, MMM d, yyyy'
+) => {
+  const formattedDate = format(new Date(date), dateFormat, {
     locale: enGB
   })
 
