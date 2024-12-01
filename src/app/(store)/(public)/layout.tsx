@@ -8,6 +8,7 @@ import { SanityLive } from '@/sanity/lib/live'
 import { BasketStoreProvider } from '@/store/provider'
 
 import { DisableDraftMode } from '@/components/globals/disable-draft-mode'
+import { AgeVerification } from '@/components/globals/age-verification'
 
 export default async function PublicLayout({
   children
@@ -23,6 +24,7 @@ export default async function PublicLayout({
             <VisualEditing />
           </>
         )}
+        <AgeVerification />
 
         <main>
           <Header />

@@ -68,6 +68,16 @@ export type Geopoint = {
   alt?: number
 }
 
+export type Faq = {
+  _id: string
+  _type: 'faq'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  question?: string
+  answer?: string
+}
+
 export type Person = {
   _id: string
   _type: 'person'
@@ -207,6 +217,7 @@ export type Sale = {
   _updatedAt: string
   _rev: string
   title?: string
+  summary?: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -227,6 +238,17 @@ export type Sale = {
   }>
   discountAmount?: number
   couponCode?: string
+  coverImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   validFrom?: string
   validUntil?: string
   isActive?: boolean
@@ -482,6 +504,7 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Faq
   | Person
   | Event
   | Food
@@ -553,53 +576,6 @@ export type CATEGORY_BY_SLUG_QUERYResult = {
     _key: string
   }>
 } | null
-
-// Source: ./src/sanity/lib/events/getAllEvents.ts
-// Variable: ALL_EVENTS_QUERY
-// Query: *[_type == "event"] | order(startDate asc)
-export type ALL_EVENTS_QUERYResult = Array<{
-  _id: string
-  _type: 'event'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name?: string
-  category?: 'meet-the-brewer' | 'other' | 'presentation' | 'tasting'
-  summary?: string
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      href?: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
-    _key: string
-  }>
-  startDate?: string
-  endDate?: string
-  price?: number
-  capacity?: number
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-}>
 
 // Source: ./src/sanity/lib/customers/getAllUniqueCustomers.ts
 // Variable: ALL_CUSTOMERS_QUERY
@@ -684,86 +660,40 @@ export type CUSTOMER_ORDERS_QUERYResult = Array<{
   orderDate?: string
 }>
 
-// Source: ./src/sanity/lib/products/getAllCategories.ts
-// Variable: ALL_CATEGORIES_QUERY
-// Query: *[_type == "category"] | order(name asc) {      _id,      name,      "slug": slug.current,    }
-export type ALL_CATEGORIES_QUERYResult = Array<{
+// Source: ./src/sanity/lib/events/getAllEvents.ts
+// Variable: ALL_EVENTS_QUERY
+// Query: *[_type == "event"] | order(startDate asc)
+export type ALL_EVENTS_QUERYResult = Array<{
   _id: string
-  name: string | null
-  slug: string | null
-}>
-
-// Source: ./src/sanity/lib/products/getFeaturedProducts.ts
-// Variable: FEATURED_PRODUCTS_QUERY
-// Query: *[_type == "product" && isFeatured][0...4] | order(name asc) {      _id,      name,      "slug": slug.current,      price,      image,      "manufacturer": manufacturer->name,      "style": category->name,    }
-export type FEATURED_PRODUCTS_QUERYResult = Array<{
-  _id: string
-  name: string | null
-  slug: string | null
-  price: number | null
-  image: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  } | null
-  manufacturer: string | null
-  style: string | null
-}>
-
-// Source: ./src/sanity/lib/products/getProductBySlug.ts
-// Variable: PRODUCT_BY_ID_QUERY
-// Query: *[_type == "product" && slug.current == $slug] | order(name asc)[0]{      _id,      name,      description,      "slug": slug.current,      "manufacturer": manufacturer->{        name,         "slug": slug.current        },      "style": category->{        name,        "slug": slug.current      },      image,      price,      abv,      size,      format    }
-export type PRODUCT_BY_ID_QUERYResult = {
-  _id: string
-  name: string | null
-  description: string | null
-  slug: string | null
-  manufacturer: {
-    name: string | null
-    slug: string | null
-  } | null
-  style: {
-    name: string | null
-    slug: string | null
-  } | null
-  image: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  } | null
-  price: number | null
-  abv: number | null
-  size: number | null
-  format: 'Bottle' | 'Can' | null
-} | null
-
-// Source: ./src/sanity/lib/products/getProductsByCategory.ts
-// Variable: PRODUCT_BY_CATEGORY_QUERY
-// Query: *[_type == "product" && references(*[_type == "category" && slug.current == $categorySlug]._id)] | order(name asc)
-export type PRODUCT_BY_CATEGORY_QUERYResult = Array<{
-  _id: string
-  _type: 'product'
+  _type: 'event'
   _createdAt: string
   _updatedAt: string
   _rev: string
   name?: string
-  slug?: Slug
+  category?: 'meet-the-brewer' | 'other' | 'presentation' | 'tasting'
+  summary?: string
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  startDate?: string
+  endDate?: string
   price?: number
-  abv?: number
-  ingredients?: Array<string>
-  description?: string
+  capacity?: number
   image?: {
     asset?: {
       _ref: string
@@ -775,85 +705,6 @@ export type PRODUCT_BY_CATEGORY_QUERYResult = Array<{
     crop?: SanityImageCrop
     _type: 'image'
   }
-  stock?: number
-  category?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'category'
-  }
-  manufacturer?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'manufacturer'
-  }
-  collaborator?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'manufacturer'
-  }
-  releaseDate?: string
-  format?: 'Bottle' | 'Can'
-  size?: number
-  isFeatured?: boolean
-}>
-
-// Source: ./src/sanity/lib/products/getProductsCount.ts
-// Variable: PRODUCTS_COUNT_QUERY
-// Query: count(*[_type == "product"])
-export type PRODUCTS_COUNT_QUERYResult = number
-
-// Source: ./src/sanity/lib/products/searchProductsByName.ts
-// Variable: PRODUCT_SEARCH_QUERY
-// Query: *[_type == "product" && name match $searchParam] | order(name asc)
-export type PRODUCT_SEARCH_QUERYResult = Array<{
-  _id: string
-  _type: 'product'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name?: string
-  slug?: Slug
-  price?: number
-  abv?: number
-  ingredients?: Array<string>
-  description?: string
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  stock?: number
-  category?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'category'
-  }
-  manufacturer?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'manufacturer'
-  }
-  collaborator?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'manufacturer'
-  }
-  releaseDate?: string
-  format?: 'Bottle' | 'Can'
-  size?: number
-  isFeatured?: boolean
 }>
 
 // Source: ./src/sanity/lib/orders/getAllOrders.tsx
@@ -1083,6 +934,178 @@ export type ORDER_QUERYResult = {
 // Query: count(*[_type == "order"])
 export type ORDERS_COUNT_QUERYResult = number
 
+// Source: ./src/sanity/lib/products/getAllCategories.ts
+// Variable: ALL_CATEGORIES_QUERY
+// Query: *[_type == "category"] | order(name asc) {      _id,      name,      "slug": slug.current,    }
+export type ALL_CATEGORIES_QUERYResult = Array<{
+  _id: string
+  name: string | null
+  slug: string | null
+}>
+
+// Source: ./src/sanity/lib/products/getFeaturedProducts.ts
+// Variable: FEATURED_PRODUCTS_QUERY
+// Query: *[_type == "product" && isFeatured][0...4] | order(name asc) {      _id,      name,      "slug": slug.current,      price,      image,      "manufacturer": manufacturer->name,      "style": category->name,    }
+export type FEATURED_PRODUCTS_QUERYResult = Array<{
+  _id: string
+  name: string | null
+  slug: string | null
+  price: number | null
+  image: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  } | null
+  manufacturer: string | null
+  style: string | null
+}>
+
+// Source: ./src/sanity/lib/products/getProductBySlug.ts
+// Variable: PRODUCT_BY_ID_QUERY
+// Query: *[_type == "product" && slug.current == $slug] | order(name asc)[0]{      _id,      name,      description,      "slug": slug.current,      "manufacturer": manufacturer->{        name,         "slug": slug.current        },      "style": category->{        name,        "slug": slug.current      },      image,      price,      abv,      size,      format    }
+export type PRODUCT_BY_ID_QUERYResult = {
+  _id: string
+  name: string | null
+  description: string | null
+  slug: string | null
+  manufacturer: {
+    name: string | null
+    slug: string | null
+  } | null
+  style: {
+    name: string | null
+    slug: string | null
+  } | null
+  image: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  } | null
+  price: number | null
+  abv: number | null
+  size: number | null
+  format: 'Bottle' | 'Can' | null
+} | null
+
+// Source: ./src/sanity/lib/products/getProductsByCategory.ts
+// Variable: PRODUCT_BY_CATEGORY_QUERY
+// Query: *[_type == "product" && references(*[_type == "category" && slug.current == $categorySlug]._id)] | order(name asc)
+export type PRODUCT_BY_CATEGORY_QUERYResult = Array<{
+  _id: string
+  _type: 'product'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  slug?: Slug
+  price?: number
+  abv?: number
+  ingredients?: Array<string>
+  description?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  stock?: number
+  category?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'category'
+  }
+  manufacturer?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'manufacturer'
+  }
+  collaborator?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'manufacturer'
+  }
+  releaseDate?: string
+  format?: 'Bottle' | 'Can'
+  size?: number
+  isFeatured?: boolean
+}>
+
+// Source: ./src/sanity/lib/products/getProductsCount.ts
+// Variable: PRODUCTS_COUNT_QUERY
+// Query: count(*[_type == "product"])
+export type PRODUCTS_COUNT_QUERYResult = number
+
+// Source: ./src/sanity/lib/products/searchProductsByName.ts
+// Variable: PRODUCT_SEARCH_QUERY
+// Query: *[_type == "product" && name match $searchParam] | order(name asc)
+export type PRODUCT_SEARCH_QUERYResult = Array<{
+  _id: string
+  _type: 'product'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  slug?: Slug
+  price?: number
+  abv?: number
+  ingredients?: Array<string>
+  description?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  stock?: number
+  category?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'category'
+  }
+  manufacturer?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'manufacturer'
+  }
+  collaborator?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'manufacturer'
+  }
+  releaseDate?: string
+  format?: 'Bottle' | 'Can'
+  size?: number
+  isFeatured?: boolean
+}>
+
 // Source: ./src/sanity/lib/sales/getActiveSaleByCouponCode.ts
 // Variable: ACTIVE_SALE_BY_COUPON_QUERY
 // Query: *[      _type == "sale"      && isActive == true      && couponCode == $couponCode      ] | order(validFrom desc)[0]
@@ -1093,6 +1116,7 @@ export type ACTIVE_SALE_BY_COUPON_QUERYResult = {
   _updatedAt: string
   _rev: string
   title?: string
+  summary?: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -1113,6 +1137,17 @@ export type ACTIVE_SALE_BY_COUPON_QUERYResult = {
   }>
   discountAmount?: number
   couponCode?: string
+  coverImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   validFrom?: string
   validUntil?: string
   isActive?: boolean
@@ -1125,19 +1160,19 @@ declare module '@sanity/client' {
     '\n    *[_type == "food"] | order(order asc) {\n      _id,\n      name,\n      description,\n      price\n    }\n  ': ALL_DISHES_QUERYResult
     '\n    *[_type == "tap"] | order(tapNumber asc) {\n      _id,\n      tapNumber,\n      beerName,\n      breweryName,\n      beerStyle,\n      abv,\n      halfPintPrice,\n      pintPrice\n    }\n  ': ALL_TAPS_QUERYResult
     '\n    *[_type == "category" && slug.current == $slug] | order(name asc)[0]\n  ': CATEGORY_BY_SLUG_QUERYResult
-    '\n    *[_type == "event"] | order(startDate asc)\n  ': ALL_EVENTS_QUERYResult
     '\n    *[_type == "order"] {\n      customerName,\n      email,\n      clerkUserId\n    }\n  ': ALL_CUSTOMERS_QUERYResult
     '\n    *[_type == "order" && clerkUserId == $customerId] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': CUSTOMER_ORDERS_QUERYResult
+    '\n    *[_type == "event"] | order(startDate asc)\n  ': ALL_EVENTS_QUERYResult
+    '\n    *[_type == "order"] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': ALL_ORDERS_QUERYResult
+    '\n    *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': MY_ORDERS_QUERYResult
+    '\n    *[_type == "order" && orderNumber == $orderId][0] {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': ORDER_QUERYResult
+    '\n    count(*[_type == "order"])\n  ': ORDERS_COUNT_QUERYResult
     '\n    *[_type == "category"] | order(name asc) {\n      _id,\n      name,\n      "slug": slug.current,\n    }\n  ': ALL_CATEGORIES_QUERYResult
     '\n    *[_type == "product" && isFeatured][0...4] | order(name asc) {\n      _id,\n      name,\n      "slug": slug.current,\n      price,\n      image,\n      "manufacturer": manufacturer->name,\n      "style": category->name,\n    }\n  ': FEATURED_PRODUCTS_QUERYResult
     '\n    *[_type == "product" && slug.current == $slug] | order(name asc)[0]{\n      _id,\n      name,\n      description,\n      "slug": slug.current,\n      "manufacturer": manufacturer->{\n        name, \n        "slug": slug.current\n        },\n      "style": category->{\n        name,\n        "slug": slug.current\n      },\n      image,\n      price,\n      abv,\n      size,\n      format\n    }\n  ': PRODUCT_BY_ID_QUERYResult
     '\n    *[_type == "product" && references(*[_type == "category" && slug.current == $categorySlug]._id)] | order(name asc)\n  ': PRODUCT_BY_CATEGORY_QUERYResult
     '\n    count(*[_type == "product"])\n  ': PRODUCTS_COUNT_QUERYResult
     '\n    *[_type == "product" && name match $searchParam] | order(name asc)\n  ': PRODUCT_SEARCH_QUERYResult
-    '\n    *[_type == "order"] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': ALL_ORDERS_QUERYResult
-    '\n    *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': MY_ORDERS_QUERYResult
-    '\n    *[_type == "order" && orderNumber == $orderId][0] {\n      ...,\n      products[]{\n        ...,\n        product->\n      }\n    }\n  ': ORDER_QUERYResult
-    '\n    count(*[_type == "order"])\n  ': ORDERS_COUNT_QUERYResult
     '\n    *[\n      _type == "sale"\n      && isActive == true\n      && couponCode == $couponCode\n      ] | order(validFrom desc)[0]\n  ': ACTIVE_SALE_BY_COUPON_QUERYResult
   }
 }

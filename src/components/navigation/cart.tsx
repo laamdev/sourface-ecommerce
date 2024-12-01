@@ -24,6 +24,8 @@ import { Loader } from '@/components/globals/loader'
 import { urlForImage } from '@/sanity/lib/utils'
 import { useBasketStore } from '@/store/provider'
 import { createCheckoutSession } from '@/actions/createCheckoutSession'
+import { getFormattedCurrency } from '@/lib/utils'
+import { ProductQuantityCart } from '../cart/product-quantity-cart'
 
 export type Metadata = {
   orderNumber: string
@@ -90,7 +92,7 @@ export const Cart = () => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader className='border-b'>
-          <SheetTitle className='flex gap-x-2 uppercase text-white'>
+          <SheetTitle className='flex gap-x-2 uppercase'>
             {`Your Cart`}
             {groupedItems.length > 0 && <span>({itemCount})</span>}
           </SheetTitle>
@@ -124,17 +126,23 @@ export const Cart = () => {
                         <h3 className='text-base font-medium'>
                           {product.name}
                         </h3>
-                        <p className='text-lg font-bold'>{`${product.price!.toFixed(2)} €`}</p>
+                        <p className='text-lg font-bold'>
+                          {getFormattedCurrency(product.price!)}
+                        </p>
                         <div className='mt-2'>
-                          <ProductQuantity product={product} />
+                          <ProductQuantityCart product={product} />
                         </div>
                       </div>
 
                       <button
                         onClick={() => clearItem(product._id)}
-                        className='absolute right-2 top-0'
+                        className='group absolute right-2 top-0'
                       >
-                        <Trash weight='fill' size={16} />
+                        <Trash
+                          weight='fill'
+                          size={16}
+                          className='tw-animation text-destructive group-hover:text-red-700'
+                        />
                       </button>
                     </div>
                   )
@@ -181,8 +189,7 @@ export const Cart = () => {
                   <Link
                     href='/beers'
                     className={buttonVariants({
-                      className: 'w-fit',
-                      variant: 'secondary'
+                      className: 'w-fit'
                     })}
                   >
                     Continue shopping

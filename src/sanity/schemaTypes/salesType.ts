@@ -1,66 +1,78 @@
-import { Basket } from "@phosphor-icons/react";
-import { defineType, defineField, defineArrayMember } from "sanity";
+import { defineType, defineField } from 'sanity'
 
 export const salesType = defineType({
-  name: "sale",
-  title: "Sale",
-  type: "document",
+  name: 'sale',
+  title: 'Sale',
+  type: 'document',
   fields: [
     defineField({
-      name: "title",
-      title: "Sale Title",
-      type: "string",
-      validation: (Rule) => Rule.required(),
+      name: 'title',
+      title: 'Sale Title',
+      type: 'string',
+      validation: Rule => Rule.required()
     }),
     defineField({
-      name: "description",
-      title: "Sale Description",
-      type: "array",
-      of: [{ type: "block" }],
+      name: 'summary',
+      title: 'Summary',
+      type: 'text'
     }),
     defineField({
-      name: "discountAmount",
-      title: "Discount Amount",
-      type: "number",
-      description: "Amount off in percentage or fixed value.",
+      name: 'description',
+      title: 'Sale Description',
+      type: 'array',
+      of: [{ type: 'block' }]
     }),
     defineField({
-      name: "couponCode",
-      title: "Coupon Code",
-      type: "string",
+      name: 'discountAmount',
+      title: 'Discount Amount',
+      type: 'number',
+      description: 'Amount off in percentage or fixed value.'
     }),
     defineField({
-      name: "validFrom",
-      title: "Valid From",
-      type: "datetime",
+      name: 'couponCode',
+      title: 'Coupon Code',
+      type: 'string'
     }),
     defineField({
-      name: "validUntil",
-      title: "Valid Until",
-      type: "datetime",
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: {
+        hotspot: true
+      }
     }),
     defineField({
-      name: "isActive",
-      title: "Is Active?",
-      type: "boolean",
-      description: "Toggle to activate/deactivate the sale.",
-      initialValue: true,
+      name: 'validFrom',
+      title: 'Valid From',
+      type: 'datetime'
     }),
+    defineField({
+      name: 'validUntil',
+      title: 'Valid Until',
+      type: 'datetime'
+    }),
+    defineField({
+      name: 'isActive',
+      title: 'Is Active?',
+      type: 'boolean',
+      description: 'Toggle to activate/deactivate the sale.',
+      initialValue: true
+    })
   ],
   preview: {
     select: {
-      title: "title",
-      discountAmount: "discountAmount",
-      couponCode: "couponCode",
-      isActive: "isActive",
+      title: 'title',
+      discountAmount: 'discountAmount',
+      couponCode: 'couponCode',
+      isActive: 'isActive'
     },
     prepare(select) {
-      const { title, discountAmount, couponCode, isActive } = select;
-      const status = isActive ? "Active" : "Inactive";
+      const { title, discountAmount, couponCode, isActive } = select
+      const status = isActive ? 'Active' : 'Inactive'
       return {
         title,
-        subtitle: `${discountAmount}% off — Code: ${couponCode} - ${status}`,
-      };
-    },
-  },
-});
+        subtitle: `${discountAmount}% off — Code: ${couponCode} - ${status}`
+      }
+    }
+  }
+})

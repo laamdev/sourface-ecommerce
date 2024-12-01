@@ -10,6 +10,7 @@ import { tapType } from './tapType'
 import { foodType } from './foodType'
 import { eventType } from './eventType'
 import { personType } from './personType'
+import { faqType } from './faqType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -22,6 +23,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     tapType,
     foodType,
     eventType,
-    personType
+    personType,
+    faqType
   ]
 }

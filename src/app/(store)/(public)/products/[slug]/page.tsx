@@ -65,9 +65,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {product.name}
           </h1>
 
-          <h3 className='font-serif text-xl font-bold text-stone-700 sm:text-3xl'>
-            {getFormattedCurrency(product.price!)}
-          </h3>
+          <div className='flex items-baseline gap-x-2'>
+            <h3 className='font-serif text-xl font-bold text-stone-700 sm:text-3xl'>
+              {getFormattedCurrency(product.price!)}
+            </h3>
+            <p className='text-xs text-stone-600 sm:text-sm'>tax inc.</p>
+          </div>
         </div>
 
         <div className='mt-4 sm:mt-8'>

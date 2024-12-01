@@ -1,5 +1,5 @@
 export const COUPON_CODES = {
-  OPENDAYS: "OPENDAYS",
-} as const;
+  SOURGRAPES: 'SOURGRAPES'
+} as const
 
-export type CouponCode = keyof typeof COUPON_CODES;
+export type CouponCode = keyof typeof COUPON_CODES
