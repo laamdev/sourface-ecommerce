@@ -24,7 +24,7 @@ export default async function PublicLayout({
             <VisualEditing />
           </>
         )}
-        <AgeVerification />
+        {/* <AgeVerification /> */}
 
         <main>
           <Header />
